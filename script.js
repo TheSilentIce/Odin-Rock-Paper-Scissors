@@ -1,3 +1,4 @@
+
 function getComputerChoice() {
     let choice =  Math.floor(Math.random() * (3 - 0) + 0);
     if (choice == 0) {
@@ -16,8 +17,8 @@ function round (playerSelection, computerSelection) {
         return "Draw";
     }
 
-    let win = "You Win! " + playerSelection + " beats " + computerSelection; 
-    let lose = "You Lost! " + computerSelection + " beats " + playerSelection;
+    let win = true;
+    let lose = false;
 
     switch (playerSelection) {
         case "Rock":
@@ -40,11 +41,36 @@ function round (playerSelection, computerSelection) {
     }
 }
 
-function game () {
-    for (let i = 0; i < 5; i++) {
-        let input = prompt("Enter choice");
-        console.log(round(input,getComputerChoice()));
+const buttons = document.querySelectorAll("button");
+
+function updateScore(check) {
+    if (check) {
+        console.log("true");
+        let x = document.querySelector(".player-score");
+        x.textContent = parseInt(x.textContent) + 1;
+
+        if (x.textContent == "5") {
+            let y = document.querySelector('#winner');
+            y.textContent = "You are the Winner"
+        }
+    } else {
+        console.log("false");
+        let x = document.querySelector(".computer-score");
+        x.textContent = parseInt(x.textContent) + 1;
+
+        if (x.textContent == "5") {
+            let y = document.querySelector('#winner');
+            y.textContent = "The Computer is the Winner"
+        }
     }
 }
 
-game();
+
+buttons.forEach((button) => {
+  button.addEventListener('click', () => { 
+     console.log("Work");
+     let btn = button.id.split("-")[0];
+     let result = round(btn,getComputerChoice());
+     updateScore(result);
+  });
+});
